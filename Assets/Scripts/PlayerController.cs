@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 4;
+    [SerializeField] private bool canMove = true;
+    private Transform currentTarget;
 
     private Vector2 stickInputValue;
     private Transform camTransform;
@@ -17,18 +19,21 @@ public class PlayerController : MonoBehaviour
         camTransform = Camera.main.transform;
     }
 
+    private void Update()
+    {
+        if (canMove)
+        {
+            RotateCharacterFromCameraView();
+            characController.Move(transform.forward * stickInputValue.magnitude * moveSpeed * Time.deltaTime);
+        }
+
+        //characController.Move(Vector3.down * 9.81f * Time.deltaTime);
+        //animator.SetBool("andar", stickInputValue != Vector2.zero);
+    }
+
     public void Move(InputAction.CallbackContext value)
     {
         stickInputValue = value.ReadValue<Vector2>();
-    }
-
-    private void Update()
-    {
-        RotateCharacterFromCameraView(); // Chama o método para definir a rotação do personagem
-        characController.Move(transform.forward * stickInputValue.magnitude * moveSpeed * Time.deltaTime);
-        //characController.Move(Vector3.down * 9.81f * Time.deltaTime);
-
-        //animator.SetBool("andar", stickInputValue != Vector2.zero);
     }
 
     private void RotateCharacterFromCameraView()
@@ -43,5 +48,10 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x, freeRotation.eulerAngles.y, transform.eulerAngles.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10 * Time.deltaTime);
         }
+    }
+
+    public void TogglePlayerController(bool toggle)
+    {
+        canMove = toggle;
     }
 }
