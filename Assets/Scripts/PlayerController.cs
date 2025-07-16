@@ -5,30 +5,46 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 4;
     [SerializeField] private bool canMove = true;
+    [SerializeField] private bool isPunching;
     private Transform currentTarget;
 
     private Vector2 stickInputValue;
     private Transform camTransform;
     private CharacterController characController;
-    //private Animator animator;
+    public Animator animator;
+
+    private string walkState = "Walk";
+    private string idleState = "Idle";
+    private string punchState = "Punch";
 
     private void Awake()
     {
-        characController = GetComponent<CharacterController>();
-        //animator = GetComponent<Animator>(); 
-        camTransform = Camera.main.transform;
+        if(characController == null)
+            characController = GetComponent<CharacterController>();
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
+        if (camTransform == null)
+            camTransform = Camera.main.transform;
     }
 
     private void Update()
     {
         if (canMove)
         {
+            if (isPunching)
+                animator.Play(punchState);
+            else if (!animator.GetCurrentAnimatorStateInfo(0).IsName(walkState) && stickInputValue != Vector2.zero)
+                animator.Play(walkState);           
+            else if(stickInputValue == Vector2.zero)
+                animator.Play(idleState);
+
             RotateCharacterFromCameraView();
             characController.Move(transform.forward * stickInputValue.magnitude * moveSpeed * Time.deltaTime);
         }
-
-        //characController.Move(Vector3.down * 9.81f * Time.deltaTime);
-        //animator.SetBool("andar", stickInputValue != Vector2.zero);
+        else
+            animator.Play(idleState);
     }
 
     public void Move(InputAction.CallbackContext value)
@@ -53,5 +69,10 @@ public class PlayerController : MonoBehaviour
     public void TogglePlayerController(bool toggle)
     {
         canMove = toggle;
+    }
+
+    public void IsPunching(bool toggle)
+    {
+        isPunching = toggle;
     }
 }

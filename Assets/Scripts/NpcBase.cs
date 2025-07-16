@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class NpcBase : MonoBehaviour
+public class NpcBase : MonoBehaviour
 {
     public int life = 1;
     public bool isknockedOut
@@ -10,7 +10,17 @@ public abstract class NpcBase : MonoBehaviour
 
     private int timeUntilDisappear = 10;
 
-    public abstract void Move();
-    public abstract void Punched(int damage);
-    public abstract void KnockedOut(); 
+    public virtual void Move() { }
+    public virtual void Punched(int damage) 
+    {
+        life -= damage;
+        if (life <= 0 && !isknockedOut)
+        {
+            KnockedOut();
+        }
+    }
+    public virtual void KnockedOut() 
+    { 
+        isknockedOut = true;
+    } 
 }
