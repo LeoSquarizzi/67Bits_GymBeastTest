@@ -72,8 +72,6 @@ public class NpcBase : MonoBehaviour
             rb.isKinematic = false;
             rb.detectCollisions = true;
             rb.useGravity = true;
-            //rb.linearVelocity = Vector3.zero;
-            //rb.angularVelocity = Vector3.zero;
         }
 
         ToggleRagdollColliders(true);
@@ -106,7 +104,6 @@ public class NpcBase : MonoBehaviour
 
     public void UpdateBaseObjectPosition()
     {
-        Debug.Log("MovePrent");
         npcRoot.transform.parent = null;
         transform.position = npcRoot.transform.position;
         npcRoot.transform.parent = transform;
@@ -133,10 +130,10 @@ public class NpcBase : MonoBehaviour
             randomDistance.y = 0f;
             Vector3 newPos = new Vector3(transform.position.x + randomDistance.x, transform.position.y, transform.position.z + randomDistance.z);
 
-            Quaternion targetRot = Quaternion.LookRotation(newPos - transform.position);
-            while (Quaternion.Angle(transform.rotation, targetRot) > 1f)
+            Quaternion rotateTo = Quaternion.LookRotation(newPos - transform.position);
+            while (Quaternion.Angle(transform.rotation, rotateTo) > 1f)
             {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, 5 * Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateTo, 5 * Time.deltaTime);
             }
 
             animator.Play(walkStateName);

@@ -38,7 +38,6 @@ public class PunchHandler : MonoBehaviour
         }
     }
 
-    public Rigidbody corpo;
     IEnumerator PunchDelayRoutine(Collider target)
     {
         playerController.IsPunching(true);
