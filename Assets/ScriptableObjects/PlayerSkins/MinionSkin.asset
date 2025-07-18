@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d167a1efb4fc25446b362eb2d3ec0471, type: 3}
+  m_Name: MinionSkin
+  m_EditorClassIdentifier: 
+  cost: 30
+  cover: {fileID: 21300000, guid: eef8e43d4e18d224abc64086f579211f, type: 3}
+  skinColor: {fileID: 2100000, guid: 93bf1020d7f84aa4585cc4587a3203ff, type: 2}
+  clothColor: {fileID: 2100000, guid: 151e3169859642c439f7b7c4fe8f57ac, type: 2}
+  necktieColor: {fileID: 2100000, guid: 93bf1020d7f84aa4585cc4587a3203ff, type: 2}

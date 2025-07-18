@@ -6,6 +6,8 @@ TagManager:
   tags:
   - NPC
   - DeliveryArea
+  - MoneyLabel
+  - ShopUI
   layers:
   - Default
   - TransparentFX

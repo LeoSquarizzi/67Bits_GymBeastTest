@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeliveryZone : MonoBehaviour
@@ -26,10 +24,11 @@ public class DeliveryZone : MonoBehaviour
         Renderer rend = GetComponent<Renderer>();
         stackedContainer = new GameObject("Stack Container");
         bodyStack.Reverse();
+        int totalMoney = 0;
 
         foreach (GameObject body in bodyStack)
         {
-            Vector3 randomPos = new Vector3(Random.Range(rend.bounds.min.x + 0.3f, rend.bounds.max.x - 0.3f), rend.bounds.center.y, Random.Range(rend.bounds.min.z + 0.3f, rend.bounds.max.z - 0.3f));
+            Vector3 randomPos = new Vector3(Random.Range(rend.bounds.min.x + 1f, rend.bounds.max.x - 1f), rend.bounds.center.y - 0.5f, Random.Range(rend.bounds.min.z + 1f, rend.bounds.max.z - 1f));
             body.transform.parent = stackedContainer.transform;
             float time = 0f;
 
@@ -41,10 +40,13 @@ public class DeliveryZone : MonoBehaviour
                 yield return null;
             }
 
+            body.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            totalMoney += body.GetComponent<NpcBase>().coinReward;
             body.transform.position = randomPos;
         } 
         
         yield return null;
+        MoneyManager.Instance.AddMoney(totalMoney);
         player.TogglePlayerController(true);
         Destroy(stackedContainer, timeBeforeDestroy);
     }
